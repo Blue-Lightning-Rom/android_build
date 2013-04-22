@@ -60,12 +60,12 @@ function check_product()
         return
     fi
 
-    if (echo -n $1 | grep -q -e "^rootbox_") ; then
-       RB_PRODUCT=$(echo -n $1 | sed -e 's/^rootbox_//g')
+    if (echo -n $1 | grep -q -e "^bluelightning_") ; then
+       BL_PRODUCT=$(echo -n $1 | sed -e 's/^bluelightning_//g')
     else
-       RB_PRODUCT=
+       BL_PRODUCT=
     fi
-      export RB_PRODUCT
+      export BL_PRODUCT
 
     CALLED_FROM_SETUP=true BUILD_SYSTEM=build/core \
         TARGET_PRODUCT=$1 \
@@ -447,7 +447,7 @@ function print_lunch_menu()
     echo
     echo "You're building on" $uname
     echo
-    if [ "z${ROOTBOX_DEVICES_ONLY}" != "z" ]; then
+    if [ "z${BLUELIGHTNING_DEVICES_ONLY}" != "z" ]; then
        echo "Breakfast menu... pick a combo:"
     else
        echo "Lunch menu... pick a combo:"
@@ -461,7 +461,7 @@ function print_lunch_menu()
         i=$(($i+1))
     done
 
-    if [ "z${ROOTBOX_DEVICES_ONLY}" != "z" ]; then
+    if [ "z${BLUELIGHTNING_DEVICES_ONLY}" != "z" ]; then
        echo "... and don't forget the bacon!"
     fi
 
@@ -483,10 +483,10 @@ function brunch()
 function breakfast()
 {
     target=$1
-    ROOTBOX_DEVICES_ONLY="true"
+    BLUELIGHTNING_DEVICES_ONLY="true"
     unset LUNCH_MENU_CHOICES
     add_lunch_combo full-eng
-    for f in `/bin/ls vendor/rootbox/vendorsetup.sh 2> /dev/null`
+    for f in `/bin/ls vendor/bluelightning/vendorsetup.sh 2> /dev/null`
         do
             echo "including $f"
             . $f
@@ -502,7 +502,7 @@ function breakfast()
             # A buildtype was specified, assume a full device name
             lunch $target
         else
-            lunch rootbox_$target-userdebug
+            lunch bluelightning_$target-userdebug
         fi
     fi
     return $?
@@ -1243,7 +1243,7 @@ function mka() {
 function mbot() {
     unset LUNCH_MENU_CHOICES
     croot
-    ./vendor/rootbox/bot/deploy.sh
+    ./vendor/bluelightning/bot/deploy.sh
 }
 
 function mkapush() {
